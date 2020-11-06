@@ -1,0 +1,59 @@
+﻿@page "/"
+
+@using Data.Propostas
+@using Newtonsoft.Json
+@inject PropostasServiceClient processamentosClient
+
+<h2>Painel do sistema com muitas consultas</h2>
+
+
+<br>
+
+@if (propostas == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id Proposta</th>
+                <th>Cliente</th>
+                <th>Produto</th>
+                <th>Status</th>
+                <th>Valor</th>
+                <th>Vendedor</th>
+                <th>Data Proposta</th>
+                <th>Data Atualizacao</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var proc in propostas.Propostas)
+            {
+                <tr>
+                    <td>@proc.idProposta</td>
+                    <td>@proc.cliente</td>
+                    <td>@proc.produto</td>
+                    <td>@proc.status</td>
+                    <td>@proc.valor</td>
+                    <td>@proc.vendedor</td>
+                    <td>@proc.dtProposta</td>
+                    <td>@proc.dtAtualizacao</td>
+
+
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private PropostasResult propostas;
+
+    protected override async Task OnInitializedAsync()
+    {
+        propostas = processamentosClient.ObterPropostas();
+    }
+}
